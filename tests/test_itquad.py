@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 from pytest import approx
 
-from quad4pt.iquad import NodeByNode, FilonClenshawCurtis
+from quad4pt.itquad import NodeByNode, FilonClenshawCurtis
 
 # fmt: off
 cases = [
