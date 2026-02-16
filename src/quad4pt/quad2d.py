@@ -10,6 +10,9 @@ class CartesianGridQuadrature:
         self.quads = list(quads)
         self.ndim = len(self.quads)
 
+    def integrate(self, f, *limits, args=(), transform: list | None = None):
+        return self(f, *limits, args=args, transform=transform)
+
     def __call__(self, f, *limits, args=(), transform: list | None = None):
         if transform is None:
             transform = [None] * self.ndim
@@ -58,6 +61,9 @@ class GaussLegendre2D:
         self.ny = ny
         self.quad = CartesianGridQuadrature([GaussLegendre(nx), GaussLegendre(ny)])
 
+    def integrate(self, f, xlimits, ylimits, *, args=(), transform: list | None = None):
+        return self(f, xlimits=xlimits, ylimits=ylimits, args=args, transform=transform)
+
     def __call__(self, f, xlimits, ylimits, *, args=(), transform: list | None = None):
         return self.quad(f, xlimits, ylimits, args=args, transform=transform)
 
@@ -70,6 +76,9 @@ class DoubleExponential2D:
         self.nx = nx
         self.ny = ny
         self.quad = CartesianGridQuadrature([DoubleExponential(nx, tmax=txmax), DoubleExponential(ny, tmax=tymax)])
+
+    def integrate(self, f, xlimits, ylimits, *, args=(), transform: list | None = None):
+        return self(f, xlimits=xlimits, ylimits=ylimits, args=args, transform=transform)
 
     def __call__(self, f, xlimits, ylimits, *, args=(), transform: list | None = None):
         return self.quad(f, xlimits, ylimits, args=args, transform=transform)

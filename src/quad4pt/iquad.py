@@ -38,6 +38,9 @@ class IntegralTransform:
         super().__init_subclass__(**kwargs)
         cls._subclasses[cls.name] = cls  # type: ignore
 
+    def integrate(self, f, args=(), **kwargs):
+        return self(f, args=args, **kwargs)
+
     def __call__(self, f, args=(), **kwargs):
         raise NotImplementedError
 

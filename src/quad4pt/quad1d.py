@@ -13,6 +13,9 @@ class BaseQuadrature:
     u: np.ndarray
     w: np.ndarray
 
+    def integrate(self, f, limits, *, args=(), transform: Transform | None = None):
+        return self(f, limits, args=args, transform=transform)
+
     def __call__(self, f, limits, *, args=(), transform: Transform | None = None):
         return sum(self.one_block(f, limits, args, transform) for limits in itertools.pairwise(limits))
 
@@ -38,6 +41,9 @@ class TransformedQuadrature:
     def __init__(self, quad, transform):
         self.base = quad
         self.transform = transform
+
+    def integrate(self, f, limits, *, args=()):
+        return self(f, limits, args=args)
 
     def __call__(self, f, *limits, args=()):
         return self.base(f, *limits, args=args, transform=self.transform)
@@ -65,6 +71,9 @@ class MultiPanelQuadrature:
         # XXX: is it possible to speed up the following two lines?
         self.x = np.hstack([transf.backward(quad.u) for quad, transf in zip(self.quads, self.transforms)])
         self.w = np.hstack([transf.jacinv(quad.u) * quad.w for quad, transf in zip(self.quads, self.transforms)])
+
+    def integrate(self, f, *, args=(), alternating=False):
+        return self(f, args=args, alternating=alternating)
 
     def __call__(self, f, *, args=(), alternating=False):
         w = self.w
