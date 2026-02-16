@@ -171,7 +171,7 @@ class FilonClenshawCurtis(IntegralTransform):
 
     name = "Filon-Clenshaw-Curtis"
 
-    def __init__(self, kernel: Kernel, y, limits, n):
+    def __init__(self, kernel: Kernel, y, limits, n=64):
         if limits[0] != 0:
             raise ValueError("Filon-Clenshaw-Curtis Bessel Integral Transform does not support non-zero lower limit.")
 
