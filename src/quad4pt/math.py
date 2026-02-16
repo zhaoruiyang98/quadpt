@@ -1,6 +1,49 @@
+import itertools
+import mpmath as mp
 import numpy as np
 import scipy
 from scipy.linalg import solve_banded
+from scipy.optimize import brentq
+from scipy.special import spherical_jn, loggamma
+
+
+def itjv(v, x, extradps=0):
+    """Integration of Bessel Jv function from 0 to x."""
+    v = np.asarray(v)
+    x = np.asarray(x)
+    v, x = np.broadcast_arrays(v, x)
+
+    if np.any(v < -1):
+        raise ValueError("Order nu must be >= -1")
+
+    special_case = v == -1
+    w = np.where(special_case, -1.0, 1.0)
+    v = np.where(special_case, 1.0, v)
+
+    def hypval_scalar(v_, x_):
+        # looks like results are all floats...
+        return float(mp.hyp1f2(0.5 * (1 + v_), 0.5 * (3 + v_), 1 + v_, -x_ * x_ / 4))
+
+    with mp.extradps(extradps):
+        hypval = np.vectorize(hypval_scalar, otypes=[float])(v, x)
+    logval = -v * np.log(2) + (1 + v) * np.log(x) + np.log(hypval) - loggamma(2 + v)
+    return w * np.exp(logval)
+
+
+def spherical_jn_zeros(n):
+    """Generate zeros of spherical Bessel function j_n(x) for n >= 0. (n is int)"""
+    if np.floor(n) != n:
+        raise ValueError("Arguments must be integers.")
+    if n == 0:
+        for m in itertools.count(1):
+            yield m * np.pi
+        return
+    prev_zeros = spherical_jn_zeros(n - 1)
+    left = next(prev_zeros)
+    for right in prev_zeros:
+        # j_{n+1}'s zeros are located between j_n's zeros
+        yield brentq(lambda x, n=n: spherical_jn(n, x), left, right)
+        left = right
 
 
 def solve_linear_recurrence(P, R, a, b, Ya, Yb=[]):
