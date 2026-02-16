@@ -90,7 +90,7 @@ class IntegralTransform:
 class NodeByNode(IntegralTransform):
     name = "node-by-node"
 
-    def __init__(self, kernel: Kernel, y, limits, nmax, nmin, ntr=100) -> None:
+    def __init__(self, kernel: Kernel, y, limits, nmax=100, nmin=20, ntr=100) -> None:
         self.kernel = kernel
         self.squeeze = np.squeeze if np.ndim(y) == 0 else lambda x: x
         self.y = np.atleast_1d(y)
