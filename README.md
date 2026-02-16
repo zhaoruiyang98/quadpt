@@ -1,2 +1,2 @@
 # quad4pt
-quadrature methods for perturbation theory of large-scale structure
+quadrature methods for the perturbation theory of large-scale structures
