@@ -104,34 +104,34 @@ class NodeByNode(IntegralTransform):
         self.quadmin = GaussLegendre(self.nmin)
 
     @classmethod
-    def Bessel(cls, nu, y, limits, nmax, nmin, ntr=100):
+    def Bessel(cls, nu, y, limits, **kwargs):
         kernel = BesselKernel(nu)
-        return cls(kernel, y, limits, nmax, nmin, ntr=ntr)
+        return cls(kernel, y, limits, **kwargs)
 
     @classmethod
-    def SphericalBessel(cls, nu, y, limits, nmax, nmin, ntr=100):
+    def SphericalBessel(cls, nu, y, limits, **kwargs):
         kernel = SphericalBesselKernel(nu)
-        return cls(kernel, y, limits, nmax, nmin, ntr=ntr)
+        return cls(kernel, y, limits, **kwargs)
 
     @classmethod
-    def P2xi(cls, nu, s, limits, nmax, nmin, ntr=100):
+    def P2xi(cls, nu, s, limits, **kwargs):
         kernel = PowerToCorrelationKernel(nu)
-        return cls(kernel, s, limits, nmax, nmin, ntr=ntr)
+        return cls(kernel, s, limits, **kwargs)
 
     @classmethod
-    def xi2P(cls, nu, k, limits, nmax, nmin, ntr=100):
+    def xi2P(cls, nu, k, limits, **kwargs):
         kernel = CorrelationToPowerKernel(nu)
-        return cls(kernel, k, limits, nmax, nmin, ntr=ntr)
+        return cls(kernel, k, limits, **kwargs)
 
     @classmethod
-    def Cos(cls, y, limits, nmax, nmin, ntr=100):
+    def Cos(cls, y, limits, **kwargs):
         kernel = CosineKernel()
-        return cls(kernel, y, limits, nmax, nmin, ntr=ntr)
+        return cls(kernel, y, limits, **kwargs)
 
     @classmethod
-    def Sin(cls, y, limits, nmax, nmin, ntr=100):
+    def Sin(cls, y, limits, **kwargs):
         kernel = SineKernel()
-        return cls(kernel, y, limits, nmax, nmin, ntr=ntr)
+        return cls(kernel, y, limits, **kwargs)
 
     def __call__(self, f, args=(), transform=None, show_progress=False):
         try:
@@ -197,24 +197,24 @@ class FilonClenshawCurtis(IntegralTransform):
         self.initialize()
 
     @classmethod
-    def Bessel(cls, nu, y, limits, n):
+    def Bessel(cls, nu, y, limits, **kwargs):
         kernel = BesselKernel(nu)
-        return cls(kernel, y, limits, n)
+        return cls(kernel, y, limits, **kwargs)
 
     @classmethod
-    def SphericalBessel(cls, nu, y, limits, n):
+    def SphericalBessel(cls, nu, y, limits, **kwargs):
         kernel = SphericalBesselKernel(nu)
-        return cls(kernel, y, limits, n)
+        return cls(kernel, y, limits, **kwargs)
 
     @classmethod
-    def P2xi(cls, nu, s, limits, n):
+    def P2xi(cls, nu, s, limits, **kwargs):
         kernel = PowerToCorrelationKernel(nu)
-        return cls(kernel, s, limits, n)
+        return cls(kernel, s, limits, **kwargs)
 
     @classmethod
-    def xi2P(cls, nu, k, limits, n):
+    def xi2P(cls, nu, k, limits, **kwargs):
         kernel = CorrelationToPowerKernel(nu)
-        return cls(kernel, k, limits, n)
+        return cls(kernel, k, limits, **kwargs)
 
     def __call__(self, f, args=()):
         # coefficient b compensates the jacobian (limits -> [0, 1])
