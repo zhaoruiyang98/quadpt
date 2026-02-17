@@ -90,7 +90,7 @@ class IntegralTransform:
 class AsymptoticExpansion(IntegralTransform):
     name = "asymptotic"
 
-    def __init__(self, kernel: Kernel, y, limits, n) -> None:
+    def __init__(self, kernel: Kernel, y, limits, n=5) -> None:
         self.kernel = kernel
         self.squeeze = np.squeeze if np.ndim(y) == 0 else lambda x: x
         self.y = np.atleast_1d(y)
