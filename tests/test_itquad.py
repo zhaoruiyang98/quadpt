@@ -2,7 +2,31 @@ import pytest
 import numpy as np
 from pytest import approx
 
-from quad4pt.itquad import NodeByNode, FilonClenshawCurtis
+from quad4pt.itquad import AsymptoticExpansion, NodeByNode, FilonClenshawCurtis
+from quad4pt.utils import import_x64_jax
+
+try:
+    import jax  # noqa: F401
+
+    jax_not_installed = False
+except ImportError:
+    jax_not_installed = True
+
+
+@pytest.mark.skipif(jax_not_installed, reason="JAX not installed")
+def test_asymptotic_expansion():
+    jax = import_x64_jax()
+    y = 100.0
+    expected = (np.e**2 - np.cos(2 * y) + y * np.sin(2 * y)) / (np.e**2 * (1.0 + y**2))
+    quad = AsymptoticExpansion.Cos(y=y, limits=(0.0, 2.0), n=5)
+    integral = quad(lambda x: jax.numpy.exp(-x))
+    assert integral == approx(expected, rel=1e-10, abs=1e-12)
+
+    expected = -(-(np.e**2) * y + y * np.cos(2 * y) + np.sin(2 * y)) / (np.e**2 * (1.0 + y**2))
+    quad = AsymptoticExpansion.Sin(y=y, limits=(0.0, 2.0), n=5)
+    integral = quad(lambda x: jax.numpy.exp(-x))
+    assert integral == approx(expected, rel=1e-10, abs=1e-12)
+
 
 # fmt: off
 cases = [

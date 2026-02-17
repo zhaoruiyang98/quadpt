@@ -15,7 +15,7 @@ from quad4pt.math import ChebyShevPolynomial, itjv, solve_linear_recurrence
 from quad4pt.quad1d import GaussLegendre
 
 
-MethodT = Literal["node-by-node", "Filon-Clenshaw-Curtis"]
+MethodT = Literal["asymptotic", "node-by-node", "Filon-Clenshaw-Curtis"]
 
 
 class IntegralTransform:
@@ -85,6 +85,31 @@ class IntegralTransform:
         if integrand is None:
             return tquad
         return tquad(integrand)
+
+
+class AsymptoticExpansion(IntegralTransform):
+    name = "asymptotic"
+
+    def __init__(self, kernel: Kernel, y, limits, n) -> None:
+        self.kernel = kernel
+        self.squeeze = np.squeeze if np.ndim(y) == 0 else lambda x: x
+        self.y = np.atleast_1d(y)
+        self.limits = limits
+        self.n = n
+        self.expander = kernel.integral_transform_expansion(self.y, limits, n)
+
+    def __call__(self, f, args=()):
+        return self.squeeze(np.array(self.expander(f, args=args)))
+
+    @classmethod
+    def Cos(cls, y, limits, n):
+        kernel = CosineKernel()
+        return cls(kernel, y, limits, n)
+
+    @classmethod
+    def Sin(cls, y, limits, n):
+        kernel = SineKernel()
+        return cls(kernel, y, limits, n)
 
 
 class NodeByNode(IntegralTransform):

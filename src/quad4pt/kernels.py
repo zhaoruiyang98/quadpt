@@ -4,6 +4,7 @@ from scipy.special import jn_zeros
 from typing import Callable
 
 from .math import spherical_jn_zeros
+from .utils import import_x64_jax
 
 
 class Kernel:
@@ -34,6 +35,24 @@ class CosineKernel(Kernel):
         iright = np.floor(xmax / np.pi + 0.5).astype(int)
         return (np.arange(ileft, iright + 1) - 0.5) * np.pi
 
+    def integral_transform_expansion(self, y, limits, n):
+        jax = import_x64_jax()
+        a, b = limits
+        va, vb = np.exp(1j * y * a), np.exp(1j * y * b)
+
+        def expander(f, args=()):
+            fn = lambda x: f(x, *args) * self.weight(x)
+            results = 0.0
+            for i in range(n):
+                fna, fnb = fn(a), fn(b)
+                coeff = -(1.0 / (-1.0j * y) ** (i + 1))
+                ith_term = coeff * (fnb * vb - fna * va)
+                results = results + ith_term.real
+                fn = jax.grad(fn)
+            return results
+
+        return expander
+
 
 class SineKernel(Kernel):
     def __init__(self, weight=lambda x: 1.0):
@@ -45,6 +64,24 @@ class SineKernel(Kernel):
         ileft = np.ceil(xmin / np.pi).astype(int)
         iright = np.floor(xmax / np.pi).astype(int)
         return np.arange(ileft, iright + 1) * np.pi
+
+    def integral_transform_expansion(self, y, limits, n):
+        jax = import_x64_jax()
+        a, b = limits
+        va, vb = np.exp(1j * y * a), np.exp(1j * y * b)
+
+        def expander(f, args=()):
+            fn = lambda x: f(x, *args) * self.weight(x)
+            results = 0.0
+            for i in range(n):
+                fna, fnb = fn(a), fn(b)
+                coeff = -(1.0 / (-1.0j * y) ** (i + 1))
+                ith_term = coeff * (fnb * vb - fna * va)
+                results = results + ith_term.imag
+                fn = jax.grad(fn)
+            return results
+
+        return expander
 
 
 class BesselKernel(Kernel):
