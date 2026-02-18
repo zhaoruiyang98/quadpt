@@ -12,7 +12,7 @@ def test_trapezoidal(n):
     f = lambda x: np.sin(x)
     a, b = 0, np.pi
     integral = Trapezoidal(n)(f, [a, b])
-    expected = np.trapezoid(f(np.linspace(a, b, n)), np.linspace(a, b, n))
+    expected = np.trapz(f(np.linspace(a, b, n)), np.linspace(a, b, n))
     np.testing.assert_allclose(integral, expected, rtol=1e-12, atol=1e-14)
 
 
