@@ -42,8 +42,8 @@ class TransformedQuadrature:
         self.base = quad
         self.transform = transform
 
-    def integrate(self, f, limits, *, args=()):
-        return self(f, limits, args=args)
+    def integrate(self, f, *limits, args=()):
+        return self(f, *limits, args=args)
 
     def __call__(self, f, *limits, args=()):
         return self.base(f, *limits, args=args, transform=self.transform)
