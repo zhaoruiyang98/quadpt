@@ -52,9 +52,9 @@ nanobind_add_module(
   NB_STATIC
 
   # Source code goes here
-  src/quad4pt/_fastgl/binding.cpp
-  src/quad4pt/_fastgl/fastgl.cpp
+  src/quadpt/_fastgl/binding.cpp
+  src/quadpt/_fastgl/fastgl.cpp
 )
 
 # Install directive for scikit-build-core
-install(TARGETS _fastgl LIBRARY DESTINATION quad4pt)
+install(TARGETS _fastgl LIBRARY DESTINATION quadpt)

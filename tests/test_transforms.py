@@ -1,7 +1,7 @@
 import numpy as np
 from pytest import approx
 
-from quad4pt.transforms import Affine, Logarithm
+from quadpt.transforms import Affine, Logarithm
 
 
 def test_affine_transform():

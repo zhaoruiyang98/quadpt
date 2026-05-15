@@ -2,7 +2,7 @@ import numpy as np
 from scipy.special import jv, jvp
 from typing import Literal
 
-from quad4pt.kernels import (
+from quadpt.kernels import (
     Kernel,
     CosineKernel,
     SineKernel,
@@ -11,8 +11,8 @@ from quad4pt.kernels import (
     PowerToCorrelationKernel,
     CorrelationToPowerKernel,
 )
-from quad4pt.math import ChebyShevPolynomial, itjv, solve_linear_recurrence
-from quad4pt.quad1d import GaussLegendre
+from quadpt.math import ChebyShevPolynomial, itjv, solve_linear_recurrence
+from quadpt.quad1d import GaussLegendre
 
 
 MethodT = Literal["asymptotic", "node-by-node", "Filon-Clenshaw-Curtis"]

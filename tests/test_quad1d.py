@@ -3,8 +3,8 @@ import numpy as np
 from pytest import approx
 from scipy.integrate import fixed_quad
 
-from quad4pt.quad1d import Trapezoidal, GaussLegendre, GaussChebyShev, ClenshawCurtis, DoubleExponential
-from quad4pt.transforms import Logarithm
+from quadpt.quad1d import Trapezoidal, GaussLegendre, GaussChebyShev, ClenshawCurtis, DoubleExponential
+from quadpt.transforms import Logarithm
 
 
 @pytest.mark.parametrize("n", [2, 5, 100, 500])

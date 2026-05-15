@@ -1,8 +1,8 @@
 import numpy as np
 from pytest import approx
 
-from quad4pt.quad1d import Trapezoidal
-from quad4pt.quad2d import CartesianGridQuadrature
+from quadpt.quad1d import Trapezoidal
+from quadpt.quad2d import CartesianGridQuadrature
 
 
 def test_cartesian_grid_integrator():

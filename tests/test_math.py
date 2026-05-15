@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from quad4pt.math import solve_linear_recurrence, itjv
+from quadpt.math import solve_linear_recurrence, itjv
 
 
 def test_solve_linear_recurrence():

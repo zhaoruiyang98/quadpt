@@ -2,8 +2,8 @@ import pytest
 import numpy as np
 from pytest import approx
 
-from quad4pt.itquad import AsymptoticExpansion, NodeByNode, FilonClenshawCurtis
-from quad4pt.utils import import_x64_jax
+from quadpt.itquad import AsymptoticExpansion, NodeByNode, FilonClenshawCurtis
+from quadpt.utils import import_x64_jax
 
 try:
     import jax  # noqa: F401

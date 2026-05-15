@@ -1,5 +1,5 @@
 [project]
-name = "quad4pt"
+name = "quadpt"
 version = "0.1.0"
 description = "quadrature methods for the perturbation theory of large-scale structures"
 readme = "README.md"
@@ -28,7 +28,7 @@ build-backend = "scikit_build_core.build"
 
 [tool.scikit-build]
 # Tells scikit-build-core where to find the Python package source
-wheel.packages = ["src/quad4pt"]
+wheel.packages = ["src/quadpt"]
 
 [tool.cibuildwheel]
 # Necessary to see build output from the actual compilation
