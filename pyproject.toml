@@ -15,6 +15,19 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    {include-group = "jax"},
+    {include-group = "plot"},
+    {include-group = "test"},
+]
+jax = [
+    "jax>=0.6.2",
+]
+plot = [
+    "ipykernel>=7.3.0",
+    "ipython>=8.39.0",
+    "matplotlib>=3.10.9",
+]
+test = [
     "pytest>=8.4.1",
 ]
 
