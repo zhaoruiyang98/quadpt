@@ -36,3 +36,6 @@ build-verbosity = 1
 
 # Don't test Python 3.8 wheels on macOS/arm64
 test-skip="cp38-macosx_*:arm64"
+
+[tool.ruff.lint]
+ignore = ['E731']

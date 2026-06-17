@@ -9,10 +9,12 @@ from quadpt.transforms import Logarithm
 
 @pytest.mark.parametrize("n", [2, 5, 100, 500])
 def test_trapezoidal(n):
+    from scipy.integrate import trapezoid
+
     f = lambda x: np.sin(x)
     a, b = 0, np.pi
     integral = Trapezoidal(n)(f, [a, b])
-    expected = np.trapz(f(np.linspace(a, b, n)), np.linspace(a, b, n))
+    expected = trapezoid(f(np.linspace(a, b, n)), np.linspace(a, b, n))
     np.testing.assert_allclose(integral, expected, rtol=1e-12, atol=1e-14)
 
 
